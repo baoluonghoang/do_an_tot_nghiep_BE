@@ -28,6 +28,7 @@ const projectsRoutes = require("./routes/projects");
 const categoriesRoutes = require("./routes/categories");
 const usersRoutes = require("./routes/users");
 const reviewsRoutes = require("./routes/reviews");
+const messagesRoutes = require("./routes/messages");
 
 //Body parser
 app.use(express.json());
@@ -37,7 +38,7 @@ app.use(cookieParser());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+    app.use(morgan("dev"));
 }
 
 //File uploading
@@ -54,8 +55,8 @@ app.use(xss());
 
 //Rate limiting
 const limiter = rateLimit({
-  window: 10 * 60 * 1000, // 10 mins
-  max: 100,
+    window: 10 * 60 * 1000, // 10 mins
+    max: 100,
 });
 app.use(limiter);
 
@@ -71,19 +72,20 @@ app.use("/api/v1/projects", projectsRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/reviews", reviewsRoutes);
+app.use("/api/v1/messages", messagesRoutes);
 
 //Handle errors
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 const server = app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
+    console.log(`Example app listening at http://localhost:${PORT}`);
 });
 
 //Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
-  console.log(`Error: ${err.message}`);
-  //close server $ exit process
-  server.close(() => process.exit(1));
+    console.log(`Error: ${err.message}`);
+    //close server $ exit process
+    server.close(() => process.exit(1));
 });
